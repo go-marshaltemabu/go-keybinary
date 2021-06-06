@@ -1,4 +1,4 @@
-package naclkey
+package keybinary
 
 import (
 	"strconv"

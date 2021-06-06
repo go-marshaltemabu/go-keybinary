@@ -1,4 +1,4 @@
-package naclkey_test
+package keybinary_test
 
 import (
 	"bytes"
