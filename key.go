@@ -5,50 +5,50 @@ import (
 )
 
 const (
-	expectEncodedKey32 = 43 // base64.RawStdEncoding.EncodedLen(32)
-	expectEncodedKey64 = 86 // base64.RawStdEncoding.EncodedLen(64)
+	expectEncodedByteArray32 = 43 // base64.RawStdEncoding.EncodedLen(32)
+	expectEncodedByteArray64 = 86 // base64.RawStdEncoding.EncodedLen(64)
 )
 
-// Key32 contain a 32 bytes key.
-type Key32 struct {
-	key [32]byte
+// ByteArray32 contain a 32 bytes array.
+type ByteArray32 struct {
+	a [32]byte
 }
 
-// NewKey32 create new instance of Key32 with given key.
-// If key is nil the resulted instance will have key fill with empty (0/zero) value.
-func NewKey32(key *[32]byte) (k *Key32) {
-	if key == nil {
-		k = &Key32{}
+// NewByteArray32 create new instance of ByteArray32 with given array reference.
+// If arrayRef is nil the resulted instance will have array fill with empty (0/zero) value.
+func NewByteArray32(arrayRef *[32]byte) (k *ByteArray32) {
+	if arrayRef == nil {
+		k = &ByteArray32{}
 	} else {
-		k = &Key32{
-			key: *key,
+		k = &ByteArray32{
+			a: *arrayRef,
 		}
 	}
 	return
 }
 
-// Load copy given key into instance.
-func (k *Key32) Load(key *[32]byte) {
-	k.key = *key
+// Load copy given array into instance.
+func (k *ByteArray32) Load(arrayRef *[32]byte) {
+	k.a = *arrayRef
 }
 
 // Clear empty key content.
-func (k *Key32) Clear() {
-	copy(k.key[:], make([]byte, 32))
+func (k *ByteArray32) Clear() {
+	copy(k.a[:], make([]byte, 32))
 }
 
 // MarshalBinary implement encoding.BinaryMarshaler interface.
-func (k *Key32) MarshalBinary() (data []byte, err error) {
+func (k *ByteArray32) MarshalBinary() (data []byte, err error) {
 	if k == nil {
 		return
 	}
 	data = make([]byte, 32)
-	copy(data, k.key[:])
+	copy(data, k.a[:])
 	return
 }
 
 // UnmarshalBinary implement encoding.BinaryUnmarshaler interface.
-func (k *Key32) UnmarshalBinary(data []byte) (err error) {
+func (k *ByteArray32) UnmarshalBinary(data []byte) (err error) {
 	if l := len(data); l == 0 {
 		k.Clear()
 		return
@@ -59,83 +59,83 @@ func (k *Key32) UnmarshalBinary(data []byte) (err error) {
 		}
 		return
 	}
-	copy(k.key[:], data)
+	copy(k.a[:], data)
 	return
 }
 
 // MarshalText implement encoding.TextMarshaler interface.
-func (k *Key32) MarshalText() (text []byte, err error) {
+func (k *ByteArray32) MarshalText() (text []byte, err error) {
 	if k == nil {
 		return
 	}
-	text = make([]byte, expectEncodedKey32)
-	base64.RawStdEncoding.Encode(text, k.key[:])
+	text = make([]byte, expectEncodedByteArray32)
+	base64.RawStdEncoding.Encode(text, k.a[:])
 	return
 }
 
 // UnmarshalText implement encoding.TextUnmarshaler interface.
-func (k *Key32) UnmarshalText(text []byte) (err error) {
+func (k *ByteArray32) UnmarshalText(text []byte) (err error) {
 	if l := len(text); l == 0 {
 		k.Clear()
 		return
-	} else if l != expectEncodedKey32 {
+	} else if l != expectEncodedByteArray32 {
 		err = &ErrIncorrectDataSize{
-			ExpectSize:   expectEncodedKey32,
+			ExpectSize:   expectEncodedByteArray32,
 			ReceivedSize: l,
 		}
 		return
 	}
-	_, err = base64.RawStdEncoding.Decode(k.key[:], text)
+	_, err = base64.RawStdEncoding.Decode(k.a[:], text)
 	return
 }
 
 // String convert k into string.
 // Resulted string will be base64.RawStdEncoding encoded or empty string if k is nil.
-func (k *Key32) String() string {
+func (k *ByteArray32) String() string {
 	buf, _ := k.MarshalText()
 	return string(buf)
 }
 
-// Key64 contain a 64 bytes key.
-type Key64 struct {
-	key [64]byte
+// ByteArray64 contain a 64 bytes key.
+type ByteArray64 struct {
+	a [64]byte
 }
 
-// NewKey64 create new instance of Key32 with given key.
-// If key is nil the resulted instance will have key fill with empty (0/zero) value.
-func NewKey64(key *[64]byte) (k *Key64) {
-	if key == nil {
-		k = &Key64{}
+// NewByteArray64 create new instance of ByteArray64 with given key.
+// If arrayRef is nil the resulted instance will have array fill with empty (0/zero) value.
+func NewByteArray64(arrayRef *[64]byte) (k *ByteArray64) {
+	if arrayRef == nil {
+		k = &ByteArray64{}
 	} else {
-		k = &Key64{
-			key: *key,
+		k = &ByteArray64{
+			a: *arrayRef,
 		}
 	}
 	return
 }
 
 // Load copy given key into instance.
-func (k *Key64) Load(key *[64]byte) {
-	k.key = *key
+func (k *ByteArray64) Load(arrayRef *[64]byte) {
+	k.a = *arrayRef
 }
 
 // Clear empty key content.
-func (k *Key64) Clear() {
-	copy(k.key[:], make([]byte, 64))
+func (k *ByteArray64) Clear() {
+	copy(k.a[:], make([]byte, 64))
 }
 
 // MarshalBinary implement encoding.BinaryMarshaler interface.
-func (k *Key64) MarshalBinary() (data []byte, err error) {
+func (k *ByteArray64) MarshalBinary() (data []byte, err error) {
 	if k == nil {
 		return
 	}
 	data = make([]byte, 64)
-	copy(data, k.key[:])
+	copy(data, k.a[:])
 	return
 }
 
 // UnmarshalBinary implement encoding.BinaryUnmarshaler interface.
-func (k *Key64) UnmarshalBinary(data []byte) (err error) {
+func (k *ByteArray64) UnmarshalBinary(data []byte) (err error) {
 	if l := len(data); l == 0 {
 		k.Clear()
 		return
@@ -146,39 +146,39 @@ func (k *Key64) UnmarshalBinary(data []byte) (err error) {
 		}
 		return
 	}
-	copy(k.key[:], data)
+	copy(k.a[:], data)
 	return
 }
 
 // MarshalText implement encoding.TextMarshaler interface.
-func (k *Key64) MarshalText() (text []byte, err error) {
+func (k *ByteArray64) MarshalText() (text []byte, err error) {
 	if k == nil {
 		return
 	}
-	text = make([]byte, expectEncodedKey64)
-	base64.RawStdEncoding.Encode(text, k.key[:])
+	text = make([]byte, expectEncodedByteArray64)
+	base64.RawStdEncoding.Encode(text, k.a[:])
 	return
 }
 
 // UnmarshalText implement encoding.TextUnmarshaler interface.
-func (k *Key64) UnmarshalText(text []byte) (err error) {
+func (k *ByteArray64) UnmarshalText(text []byte) (err error) {
 	if l := len(text); l == 0 {
 		k.Clear()
 		return
-	} else if l != expectEncodedKey64 {
+	} else if l != expectEncodedByteArray64 {
 		err = &ErrIncorrectDataSize{
-			ExpectSize:   expectEncodedKey64,
+			ExpectSize:   expectEncodedByteArray64,
 			ReceivedSize: l,
 		}
 		return
 	}
-	_, err = base64.RawStdEncoding.Decode(k.key[:], text)
+	_, err = base64.RawStdEncoding.Decode(k.a[:], text)
 	return
 }
 
 // String convert k into string.
 // Resulted string will be base64.RawStdEncoding encoded or empty string if k is nil.
-func (k *Key64) String() string {
+func (k *ByteArray64) String() string {
 	buf, _ := k.MarshalText()
 	return string(buf)
 }
