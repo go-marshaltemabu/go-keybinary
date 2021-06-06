@@ -27,6 +27,12 @@ func NewByteArray32(arrayRef *[32]byte) (k *ByteArray32) {
 	return
 }
 
+// Ref return pointer references array.
+func (k *ByteArray32) Ref() (ref *[32]byte) {
+	ref = &k.a
+	return
+}
+
 // Load copy given array into instance.
 func (k *ByteArray32) Load(arrayRef *[32]byte) {
 	k.a = *arrayRef
@@ -111,6 +117,12 @@ func NewByteArray64(arrayRef *[64]byte) (k *ByteArray64) {
 			a: *arrayRef,
 		}
 	}
+	return
+}
+
+// Ref return pointer references array.
+func (k *ByteArray64) Ref() (ref *[64]byte) {
+	ref = &k.a
 	return
 }
 
