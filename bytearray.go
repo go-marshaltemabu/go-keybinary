@@ -9,6 +9,9 @@ const (
 	expectEncodedByteArray64 = 86 // base64.RawStdEncoding.EncodedLen(64)
 )
 
+var emptyByteArray32 [32]byte
+var emptyByteArray64 [64]byte
+
 // ByteArray32 contain a 32 bytes array.
 type ByteArray32 struct {
 	a [32]byte
@@ -71,7 +74,7 @@ func (k *ByteArray32) UnmarshalBinary(data []byte) (err error) {
 
 // MarshalText implement encoding.TextMarshaler interface.
 func (k *ByteArray32) MarshalText() (text []byte, err error) {
-	if k == nil {
+	if (k == nil) || (k.a == emptyByteArray32) {
 		return
 	}
 	text = make([]byte, expectEncodedByteArray32)
@@ -164,7 +167,7 @@ func (k *ByteArray64) UnmarshalBinary(data []byte) (err error) {
 
 // MarshalText implement encoding.TextMarshaler interface.
 func (k *ByteArray64) MarshalText() (text []byte, err error) {
-	if k == nil {
+	if (k == nil) || (k.a == emptyByteArray64) {
 		return
 	}
 	text = make([]byte, expectEncodedByteArray64)
