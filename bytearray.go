@@ -43,7 +43,12 @@ func (k *ByteArray32) Load(arrayRef *[32]byte) {
 
 // Clear empty key content.
 func (k *ByteArray32) Clear() {
-	copy(k.a[:], make([]byte, 32))
+	copy(k.a[:], emptyByteArray32[:])
+}
+
+// IsZero return is content of array in zero.
+func (k *ByteArray32) IsZero() bool {
+	return (k.a == emptyByteArray32)
 }
 
 // MarshalBinary implement encoding.BinaryMarshaler interface.
@@ -136,7 +141,12 @@ func (k *ByteArray64) Load(arrayRef *[64]byte) {
 
 // Clear empty key content.
 func (k *ByteArray64) Clear() {
-	copy(k.a[:], make([]byte, 64))
+	copy(k.a[:], emptyByteArray64[:])
+}
+
+// IsZero return is content of array in zero.
+func (k *ByteArray64) IsZero() bool {
+	return (k.a == emptyByteArray64)
 }
 
 // MarshalBinary implement encoding.BinaryMarshaler interface.

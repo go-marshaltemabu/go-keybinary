@@ -26,6 +26,9 @@ func TestByteArray32_Clear(t *testing.T) {
 	rand.Read(rawKey[:])
 	rawKey[0] = 'a'
 	k1 := keybinary.NewByteArray32(&rawKey)
+	if k1.IsZero() {
+		t.Errorf("unexpected zero check result (expect false): %s", k1.String())
+	}
 	var kEmpty keybinary.ByteArray32
 	if *k1 == kEmpty {
 		t.Errorf("unexpected key equal: %s vs. %s",
@@ -35,6 +38,26 @@ func TestByteArray32_Clear(t *testing.T) {
 	if *k1 != kEmpty {
 		t.Errorf("unexpected key difference: %s vs. %s",
 			k1.String(), kEmpty.String())
+	}
+	if !k1.IsZero() {
+		t.Errorf("unexpected zero check result (expect true): %s", k1.String())
+	}
+}
+
+func TestByteArray32_Zero(t *testing.T) {
+	var kEmpty keybinary.ByteArray32
+	if !kEmpty.IsZero() {
+		t.Errorf("unexpected zero check result (expect true): %s", kEmpty.String())
+	}
+	if buf, err := kEmpty.MarshalText(); nil != err {
+		t.Errorf("invoke MarshalText failed: %v", err)
+	} else if s := string(buf); s != "" {
+		t.Errorf("unexpected result: %s", s)
+	}
+	if buf, err := kEmpty.MarshalBinary(); nil != err {
+		t.Errorf("invoke MarshalBinary failed: %v", err)
+	} else if !bytes.Equal(buf, make([]byte, 32)) {
+		t.Errorf("unexpected result: %v", buf)
 	}
 }
 
@@ -95,6 +118,7 @@ func TestByteArray32_Text(t *testing.T) {
 		"7ilLOfMrfHgiumT4SrQ8oMbmuRwf076JkENBedOvRJE",
 		"TrdknGyTR4AJedGDA1bypUw96rKktEddY6++j7Vph8c",
 		"C/UFmHWSHmaKW98sf8SERZLSVyvNBmjS1sUvUFTi0IM",
+		"",
 	}
 	for idx, data := range targets {
 		var k keybinary.ByteArray32
@@ -120,13 +144,19 @@ func TestByteArray32_Text(t *testing.T) {
 	if len(buf) != 0 {
 		t.Errorf("unexpect MarshalText result: %v", buf)
 	}
+	var kEmpty keybinary.ByteArray32
 	var rawKey [32]byte
 	rand.Read(rawKey[:])
 	k0 = keybinary.NewByteArray32(&rawKey)
 	k0.UnmarshalText(nil)
-	var kEmpty keybinary.ByteArray32
 	if kEmpty != *k0 {
-		t.Errorf("empty text key different: %s vs. %s",
+		t.Errorf("empty text key different (w/ nil): %s vs. %s",
+			k0.String(), kEmpty.String())
+	}
+	k0 = keybinary.NewByteArray32(&rawKey)
+	k0.UnmarshalText([]byte(""))
+	if kEmpty != *k0 {
+		t.Errorf("empty text key different (w/ \"\"): %s vs. %s",
 			k0.String(), kEmpty.String())
 	}
 	var k13 *keybinary.ByteArray32
@@ -154,6 +184,9 @@ func TestByteArray64_Clear(t *testing.T) {
 	rand.Read(rawKey[:])
 	rawKey[0] = 'a'
 	k1 := keybinary.NewByteArray64(&rawKey)
+	if k1.IsZero() {
+		t.Errorf("unexpected zero check result (expect false): %s", k1.String())
+	}
 	var kEmpty keybinary.ByteArray64
 	if *k1 == kEmpty {
 		t.Errorf("unexpected key equal: %s vs. %s",
@@ -163,6 +196,26 @@ func TestByteArray64_Clear(t *testing.T) {
 	if *k1 != kEmpty {
 		t.Errorf("unexpected key difference: %s vs. %s",
 			k1.String(), kEmpty.String())
+	}
+	if !k1.IsZero() {
+		t.Errorf("unexpected zero check result (expect true): %s", k1.String())
+	}
+}
+
+func TestByteArray64_Zero(t *testing.T) {
+	var kEmpty keybinary.ByteArray64
+	if !kEmpty.IsZero() {
+		t.Errorf("unexpected zero check result (expect true): %s", kEmpty.String())
+	}
+	if buf, err := kEmpty.MarshalText(); nil != err {
+		t.Errorf("invoke MarshalText failed: %v", err)
+	} else if s := string(buf); s != "" {
+		t.Errorf("unexpected result: %s", s)
+	}
+	if buf, err := kEmpty.MarshalBinary(); nil != err {
+		t.Errorf("invoke MarshalBinary failed: %v", err)
+	} else if !bytes.Equal(buf, make([]byte, 64)) {
+		t.Errorf("unexpected result: %v", buf)
 	}
 }
 
@@ -223,6 +276,7 @@ func TestByteArray64_Text(t *testing.T) {
 		"5QvhptwdV2joU3mI/dzlYum5SMkYu6PpM+XEAM3l5gxerW/Hrne6HSWbGIpLIchvvCPXKLRTR+raZQryTFbQgA",
 		"nNzFlbzOPHvT2N+T+rfhJd3rr+ZaMb1dQeLSzpwrF4kvD+oZMaKQIgd3qTFD39y/poQG6HcHP/CINOGXpANKpA",
 		"DvHDFAkPB8eab1ccJG8+msC3QT7xEL1YsAznO/9wb3/0tvRAkKMnEfMgjk5LictRZc5kACy9nCiHqhE98kaJKA",
+		"",
 	}
 	for idx, data := range targets {
 		var k keybinary.ByteArray64
@@ -248,13 +302,19 @@ func TestByteArray64_Text(t *testing.T) {
 	if len(buf) != 0 {
 		t.Errorf("unexpect MarshalText result: %v", buf)
 	}
+	var kEmpty keybinary.ByteArray64
 	var rawKey [64]byte
 	rand.Read(rawKey[:])
 	k0 = keybinary.NewByteArray64(&rawKey)
 	k0.UnmarshalText(nil)
-	var kEmpty keybinary.ByteArray64
 	if kEmpty != *k0 {
-		t.Errorf("empty text key different: %s vs. %s",
+		t.Errorf("empty text key different (w/ nil): %s vs. %s",
+			k0.String(), kEmpty.String())
+	}
+	k0 = keybinary.NewByteArray64(&rawKey)
+	k0.UnmarshalText([]byte(""))
+	if kEmpty != *k0 {
+		t.Errorf("empty text key different (w/ \"\"): %s vs. %s",
 			k0.String(), kEmpty.String())
 	}
 	var k13 *keybinary.ByteArray64
