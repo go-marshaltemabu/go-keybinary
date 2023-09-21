@@ -41,6 +41,11 @@ func (k *ByteArray32) Load(arrayRef *[32]byte) {
 	k.a = *arrayRef
 }
 
+// CopyInto copy array content into given dst with builtin copy.
+func (k *ByteArray32) CopyInto(dst []byte) int {
+	return copy(dst, k.a[:])
+}
+
 // Clear empty key content.
 func (k *ByteArray32) Clear() {
 	copy(k.a[:], emptyByteArray32[:])
@@ -137,6 +142,11 @@ func (k *ByteArray64) Ref() (ref *[64]byte) {
 // Load copy given key into instance.
 func (k *ByteArray64) Load(arrayRef *[64]byte) {
 	k.a = *arrayRef
+}
+
+// CopyInto copy array content into given dst with builtin copy.
+func (k *ByteArray64) CopyInto(dst []byte) int {
+	return copy(dst, k.a[:])
 }
 
 // Clear empty key content.

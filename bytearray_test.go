@@ -21,6 +21,41 @@ func TestByteArray32_Load(t *testing.T) {
 	}
 }
 
+func TestByteArray32_CopyInto19(t *testing.T) {
+	var rawKey [32]byte
+	rand.Read(rawKey[:])
+	k1 := keybinary.NewByteArray32(&rawKey)
+	var dst19 [19]byte
+	if c := k1.CopyInto(dst19[:]); c != 19 {
+		t.Errorf("unexpected copy count (dst19): %d", c)
+	}
+	for idx, v := range dst19 {
+		if v != rawKey[idx] {
+			t.Errorf("unexpected copied value (dst19): %d vs. %d (index=%d)", v, rawKey[idx], idx)
+		}
+	}
+}
+
+func TestByteArray32_CopyInto71(t *testing.T) {
+	var rawKey [32]byte
+	rand.Read(rawKey[:])
+	k1 := keybinary.NewByteArray32(&rawKey)
+	var dst71 [71]byte
+	if c := k1.CopyInto(dst71[:]); c != 32 {
+		t.Errorf("unexpected copy count (dst71): %d", c)
+	}
+	for idx, v := range rawKey {
+		if dst71[idx] != v {
+			t.Errorf("unexpected copied value (dst71): %d vs. %d (index=%d)", dst71[idx], v, idx)
+		}
+	}
+	for idx := 32; idx < 71; idx++ {
+		if dst71[idx] != 0 {
+			t.Errorf("unexpected empty value (dst71): %d (index=%d)", dst71[idx], idx)
+		}
+	}
+}
+
 func TestByteArray32_Clear(t *testing.T) {
 	var rawKey [32]byte
 	rand.Read(rawKey[:])
@@ -176,6 +211,41 @@ func TestByteArray64_Load(t *testing.T) {
 	if *k1 != k2 {
 		t.Errorf("unexpected key difference: %s vs. %s",
 			k1.String(), k2.String())
+	}
+}
+
+func TestByteArray64_CopyInto19(t *testing.T) {
+	var rawKey [64]byte
+	rand.Read(rawKey[:])
+	k1 := keybinary.NewByteArray64(&rawKey)
+	var dst19 [19]byte
+	if c := k1.CopyInto(dst19[:]); c != 19 {
+		t.Errorf("unexpected copy count (dst19): %d", c)
+	}
+	for idx, v := range dst19 {
+		if v != rawKey[idx] {
+			t.Errorf("unexpected copied value (dst19): %d vs. %d (index=%d)", v, rawKey[idx], idx)
+		}
+	}
+}
+
+func TestByteArray64_CopyInto71(t *testing.T) {
+	var rawKey [64]byte
+	rand.Read(rawKey[:])
+	k1 := keybinary.NewByteArray64(&rawKey)
+	var dst71 [71]byte
+	if c := k1.CopyInto(dst71[:]); c != 64 {
+		t.Errorf("unexpected copy count (dst71): %d", c)
+	}
+	for idx, v := range rawKey {
+		if dst71[idx] != v {
+			t.Errorf("unexpected copied value (dst71): %d vs. %d (index=%d)", dst71[idx], v, idx)
+		}
+	}
+	for idx := 64; idx < 71; idx++ {
+		if dst71[idx] != 0 {
+			t.Errorf("unexpected empty value (dst71): %d (index=%d)", dst71[idx], idx)
+		}
 	}
 }
 
