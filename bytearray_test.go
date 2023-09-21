@@ -2,8 +2,8 @@ package keybinary_test
 
 import (
 	"bytes"
+	"crypto/rand"
 	"encoding/base64"
-	"math/rand"
 	"testing"
 
 	keybinary "github.com/go-marshaltemabu/go-keybinary"
